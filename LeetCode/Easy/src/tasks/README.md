@@ -1,4 +1,6 @@
-# Basis
+### [实现LRU算法](#aa)
+### [队列实现栈](#bb)
+# <span id="aa">Basis</span>
 #### [常用的页面置换算法（缓存算法）](#a)
 #### [缓存](#b)
 #### [java实现LRU](#c)
@@ -171,3 +173,122 @@ public class LRUCache<K, V> extends LinkedHashMap<K, V> {
 ```
 >  * 充分利用了 LinkedHashMap 的有序性特性和容量限制特性
 >  * removeEldestEntry 这个方法如果返回true，则会移除最老的数据；这只会在调用 put 或者 putAll 时发生
+
+
+# <span id="bb">Basis</span>
+### [两个队列实现一个栈](#a)
+### [一个队列实现一个栈](#b)
+# <span id="a">两个队列实现一个栈</span>
+### Logic
+在`push`的时候，往非空的那个队列添加（初始化的时候，两个队列都为空，`offer`任意队列都行）
+
+在`pop`的时候，如果队列1不为空，就把队列1中`q1.size()-1`个元素`poll`出来，添加到队列2中，再把队列中那个最后的元素`poll`出来
+
+这两个队列始终保证有一个是空的，另一个非空。`push`添加元素到非空队列中，`pop`把非空队列中前面的元素都转移到另一个队列中，只剩最后一个元素，再把最后一个元素`poll`出来，这样这一个队列是空的，另一个队列又非空了
+
+### Solution
+```java
+Queue<String> queue1 = new LinkedList<>();
+Queue<String> queue2 = new LinkedList<>();
+
+public void push(String args){
+    if (!queue2.isEmpty()){
+        queue2.offer(args);
+    }
+    else {
+        queue1.offer(args);
+    }
+}
+
+public String pop() {
+    if (queue1.isEmpty()) {
+        while (queue2.size() > 1) {
+            queue1.offer(queue2.poll());
+        }
+        String x = queue2.poll();
+        return x;
+    } else {
+        while (queue1.size() > 1) {
+            queue2.offer(queue1.poll());
+        }
+        String x = queue1.poll();
+        return x;
+    }
+}
+
+public static void main(String[] args) {
+    QueueToStack qts = new QueueToStack();
+    qts.push("a");
+    qts.push("b");
+    qts.push("c");
+    qts.push("test");
+    System.out.println(qts.pop());
+    System.out.println(qts.pop());
+
+    System.out.println("=========== 新添加字符 ===========");
+
+    qts.push("push");
+    qts.push("push again");
+    System.out.println(qts.pop());
+    System.out.println(qts.pop());
+    System.out.println(qts.pop());
+    System.out.println(qts.pop());
+}
+```
+输出
+```
+test
+c
+push again
+```
+
+# <span id="b">一个队列实现一个栈</span>
+### Logic
+对于`push`操作，栈与队列都是从队尾进行，直接`offer`就行
+
+对于`pop`操作，假设队列长度为n（假设存储内容为头1,2,3尾），对从队头`poll`出来的元素执行`offer`存入队尾，循环进行`n-1`次操作（此时存储的内容为头3，1，2尾），然后再执行一次`poll`（取出3），即完成了栈的弹出
+
+### Solution
+```java
+Queue<Integer> que = new LinkedList<>();
+
+public void push1(Integer num){
+    que.offer(num);
+}
+
+public Integer pop1(){
+    if (que.isEmpty()){
+        return null;
+    }else {
+        for (int i = 0; i < que.size()-1; i++) {
+            que.offer(que.poll());
+        }
+        return que.poll();
+    }
+}
+
+public static void main(String[] args) {
+    QueueToStack qts = new QueueToStack();
+    System.out.println(qts.pop1());
+    qts.push1(1);
+    qts.push1(3);
+    qts.push1(5);
+    System.out.println(qts.pop1());
+    System.out.println("=========== 新添加数字 ===========");
+    qts.push1(77);
+    System.out.println(qts.pop1());
+    System.out.println(qts.pop1());
+    System.out.println(qts.pop1());
+    System.out.println(qts.pop1());
+}
+```
+输出
+```
+null
+5
+=========== 新添加数字 ===========
+77
+3
+1
+null
+```
