@@ -1,5 +1,5 @@
 # IDEA
-### LeetCode
+### LeetCode 目录
 * 两数相加的问题
 * socket实现多线程客户端通信
 * LRU（页面置换算法）的实现
@@ -8,4 +8,4 @@
 * List接口运用
 * 数组实现Map
 * 数组实现ArrayList、LinkedList
-### JavaStudy
+### JavaStudy 目录
