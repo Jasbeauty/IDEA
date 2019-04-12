@@ -76,7 +76,7 @@ public class JavaCache {
 > 每访问一次数据，都把最新的访问的数据放到了链表头部，那链表尾部的数据就是最近没有访问过的数据；当链表满了，从链表尾部开始往前删除指定数目的数据，就能在常数级（`O(1)`复杂度）时间内腾出空间
 
 #### 基本实现
-```
+```java
 package tasks;
 
 import java.util.LinkedHashMap;
@@ -121,7 +121,7 @@ public class LRUCache {
 
 #### 源码解析
 * LinkedList带boolean型参数的构造方法
-```
+```java
 /**
  * Constructs an empty <tt>LinkedHashMap</tt> instance with the
  * specified initial capacity, load factor and ordering mode.
@@ -145,7 +145,7 @@ public LinkedHashMap(int initialCapacity,
 
 * LRU 容器核心
 由于 LinkedHashMap 天生支持插入顺序或者访问顺序的 key-value 对，而 LRU 算法的核心恰巧用到它的访问顺序特性，即对一个键执行 get、put 操作后其对应的键值对会移到链表末尾，所以最末尾的是最近访问的，最开始的是最久没被访问的
-```
+```java
 import java.util.LinkedHashMap;
 import java.util.Map;
 
