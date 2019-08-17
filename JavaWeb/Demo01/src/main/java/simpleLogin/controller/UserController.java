@@ -28,7 +28,7 @@ public class UserController {
 
     public UserController() {
         super();
-        userList = new ArrayList<>();
+        userList = new ArrayList<User>();
     }
 
     // 静态的日志类

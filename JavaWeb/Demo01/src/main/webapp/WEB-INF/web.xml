@@ -5,6 +5,31 @@
          version="3.1">
 
     <display-name>Archetype Created Web Application</display-name>
+    <!--解决中文乱码-->
+    <filter>
+        <filter-name>encodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+        <!--可选部分 强制转换 值为true-->
+
+        <init-param>
+            <param-name>forceEncoding</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>encodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <!--可选部分 不知道有没有用-->
+    <filter-mapping>
+        <filter-name>encodingFilter</filter-name>
+        <url-pattern>*.jsp</url-pattern>
+    </filter-mapping>
     <!--welcome pages-->
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
@@ -23,6 +48,8 @@
         <load-on-startup>1</load-on-startup>
         <async-supported>true</async-supported>
     </servlet>
+
+
     <!--让 Spring MVC 的前端控制器拦截所有请求-->
     <servlet-mapping>
         <servlet-name>springMVC</servlet-name>
